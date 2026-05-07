@@ -1,0 +1,21 @@
+{
+  "name": "k8s-superagent",
+  "description": "Virtual Kubernetes engineering organization for Claude Code — developer, SRE, architect, security engineer, and release engineer profiles with agents, skills, and guardrails.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Abishek Kumar",
+    "email": "abishekkumar92@gmail.com"
+  },
+  "repository": "https://github.com/abishekkumar/superagents",
+  "license": "MIT",
+  "keywords": [
+    "kubernetes",
+    "k8s",
+    "sre",
+    "devops",
+    "operators",
+    "platform-engineering",
+    "agents",
+    "skills"
+  ]
+}

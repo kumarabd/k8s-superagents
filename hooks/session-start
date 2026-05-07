@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# SessionStart hook for k8s-superagent plugin
+# Injects the plugin entry point into every Claude Code session.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+# Read the entry-point skill
+skill_content=$(cat "${PLUGIN_ROOT}/skills/using-k8s-superagent/SKILL.md" 2>&1 || echo "Error reading k8s-superagent skill")
+
+# Replace ${PLUGIN_ROOT} placeholder with actual path
+skill_content="${skill_content//\$\{PLUGIN_ROOT\}/${PLUGIN_ROOT}}"
+
+# Escape for JSON embedding
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+skill_escaped=$(escape_for_json "$skill_content")
+
+context="<system-reminder>\nk8s-superagent is installed. When the user mentions Kubernetes work or asks to load a profile, use the information below.\n\n${skill_escaped}\n</system-reminder>"
+
+# Emit in the format the current platform expects
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+    printf '{\n  "additional_context": "%s"\n}\n' "$context"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+    printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$context"
+else
+    printf '{\n  "additionalContext": "%s"\n}\n' "$context"
+fi
+
+exit 0
