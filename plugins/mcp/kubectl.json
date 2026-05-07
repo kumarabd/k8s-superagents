@@ -1,0 +1,16 @@
+{
+  "name": "kubectl",
+  "description": "Kubernetes cluster operations via kubectl. Read operations are always permitted. Write operations require controlled-write or privileged guardrail tier confirmation.",
+  "capabilities": {
+    "read": [
+      "get", "describe", "list", "logs", "events", "top", "diff", "explain"
+    ],
+    "controlled_write": [
+      "apply", "scale", "patch", "label", "annotate", "rollout restart"
+    ],
+    "privileged": [
+      "delete", "drain", "cordon", "uncordon", "exec", "force-delete"
+    ]
+  },
+  "notes": "Configure KUBECONFIG before use. Use --context to target specific clusters. Always run kubectl diff before apply."
+}

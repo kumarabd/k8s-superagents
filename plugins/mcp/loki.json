@@ -1,0 +1,19 @@
+{
+  "name": "loki",
+  "description": "Loki log queries for incident triage and observability investigation. Read-only. Used by cluster-sre, incident-responder, and observability-investigation skill.",
+  "capabilities": {
+    "read": [
+      "log query (query)",
+      "log range query (query_range)",
+      "list labels",
+      "list label values",
+      "tail logs (real-time)"
+    ]
+  },
+  "connection": {
+    "url": "${LOKI_URL}",
+    "auth": "basic auth or bearer token via LOKI_TOKEN env var"
+  },
+  "query_language": "LogQL",
+  "notes": "Set LOKI_URL. For Grafana Cloud Loki, use the Loki endpoint with your cloud API key."
+}

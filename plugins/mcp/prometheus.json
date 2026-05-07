@@ -1,0 +1,19 @@
+{
+  "name": "prometheus",
+  "description": "Prometheus metrics queries for observability investigation and capacity planning. Read-only. Used by cluster-sre, incident-responder, capacity-planner, and release-manager agents.",
+  "capabilities": {
+    "read": [
+      "instant query (query)",
+      "range query (query_range)",
+      "list series",
+      "get metric metadata",
+      "list alerting rules",
+      "get alert state"
+    ]
+  },
+  "connection": {
+    "url": "${PROMETHEUS_URL}",
+    "auth": "bearer token via PROMETHEUS_TOKEN env var"
+  },
+  "notes": "Set PROMETHEUS_URL to your Prometheus endpoint. For Thanos or Cortex, point to the query frontend."
+}

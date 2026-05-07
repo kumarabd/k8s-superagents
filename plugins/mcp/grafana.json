@@ -1,0 +1,19 @@
+{
+  "name": "grafana",
+  "description": "Grafana dashboard and alert queries for observability investigation and rollout monitoring. Read-only. Used by cluster-sre, incident-responder, and release-manager agents.",
+  "capabilities": {
+    "read": [
+      "list dashboards",
+      "get dashboard panels",
+      "query panel data",
+      "list alert rules",
+      "get alert state",
+      "list firing alerts"
+    ]
+  },
+  "connection": {
+    "url": "${GRAFANA_URL}",
+    "auth": "service account token via GRAFANA_TOKEN env var"
+  },
+  "notes": "Set GRAFANA_URL and GRAFANA_TOKEN. Token needs Viewer role minimum."
+}

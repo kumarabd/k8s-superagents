@@ -1,0 +1,31 @@
+{
+  "name": "cloud-provider",
+  "description": "Cloud provider infrastructure operations for node pool management, IAM, and networking. Used by capacity-planner and incident-responder for node-level operations.",
+  "providers": {
+    "gcp": {
+      "capabilities": {
+        "read": ["list node pools", "get cluster", "list instances", "get IAM policy"],
+        "controlled_write": ["resize node pool", "update node pool config"],
+        "privileged": ["delete node", "recreate node pool"]
+      },
+      "auth": "Application Default Credentials (gcloud auth application-default login)"
+    },
+    "aws": {
+      "capabilities": {
+        "read": ["describe node groups", "describe cluster", "list instances"],
+        "controlled_write": ["update node group", "scale node group"],
+        "privileged": ["terminate instance", "delete node group"]
+      },
+      "auth": "AWS credentials via AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY or instance role"
+    },
+    "azure": {
+      "capabilities": {
+        "read": ["list node pools", "get cluster", "list VMs"],
+        "controlled_write": ["scale node pool"],
+        "privileged": ["delete node", "delete node pool"]
+      },
+      "auth": "Azure CLI credentials (az login)"
+    }
+  },
+  "notes": "Configure the active provider in your environment. Only the configured provider is available per session."
+}

@@ -1,0 +1,14 @@
+{
+  "name": "github",
+  "description": "GitHub operations for code review, issue tracking, and PR management. Used by operator-developer, manifest-engineer, security-auditor, and release-manager agents.",
+  "capabilities": {
+    "read": [
+      "get repository", "list issues", "get pull request", "list PR files",
+      "get file content", "list commits", "get workflow runs"
+    ],
+    "write": [
+      "create PR comment", "update PR status", "create issue", "add label"
+    ]
+  },
+  "notes": "Requires GITHUB_TOKEN environment variable. Scope: repo read, PR write."
+}
