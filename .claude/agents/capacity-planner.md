@@ -54,3 +54,17 @@ Risk: <low/medium/high — explain>
 
 - Apply changes without user review of the recommendation
 - Make node pool decisions without cloud cost data from Cloud Provider MCP
+
+## Cluster inspection scripts
+
+Use these for the utilization data-gathering phase — faster and more consistent than raw kubectl:
+- `plugins/scripts/cluster-reader.sh top-pods` — all pod CPU/memory sorted by memory
+- `plugins/scripts/cluster-reader.sh top-nodes` — node resource usage
+- `plugins/scripts/cluster-reader.sh hpa` — all HPAs with current/desired/max replicas
+
+Run with:
+```bash
+bash plugins/scripts/cluster-reader.sh top-pods
+bash plugins/scripts/cluster-reader.sh top-nodes
+bash plugins/scripts/cluster-reader.sh hpa
+```
