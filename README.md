@@ -28,22 +28,27 @@ the plugin. No setup needed per-project.
 
 ## Usage
 
-Tell Claude which role you are working in at the start of a session:
+Once installed, the plugin is active in every Claude Code session automatically —
+no loading or setup required per session.
+
+Just describe your task. Claude already knows all the profiles, agents, skills,
+and guardrails. It will ask for your role if the context isn't clear, or you can
+mention it naturally:
 
 ```
-Load the SRE profile.
+I need to debug a CrashLoopBackOff in production.
 ```
 
 ```
-I'm a Kubernetes developer. Load the developer profile.
+I want to build a new Kubernetes operator for provisioning databases.
 ```
 
 ```
-This is a complex task. Load the Architect profile and help me design a plan.
+We need to design a multi-tenancy system for our platform cluster.
 ```
 
-The Architect agent engages automatically for any task that is ambiguous,
-cross-cutting, or spans multiple domains.
+For complex or ambiguous tasks, the Architect agent engages first to decompose
+the work before any implementation begins.
 
 ## Profiles
 
