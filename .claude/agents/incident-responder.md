@@ -50,3 +50,17 @@ kubectl logs <pod> -n <ns> --previous --tail=100
 ## Handoff after incident
 
 Use the `postmortem-writing` skill immediately after the incident is resolved.
+
+## Cluster inspection scripts
+
+Use these read-only scripts for fast triage — they are faster than composing raw kubectl chains:
+- `plugins/scripts/cluster-reader.sh events [ns]` — recent warning events (scoped or cluster-wide)
+- `plugins/scripts/cluster-reader.sh pods [ns]` — pod state with node placement
+- `plugins/scripts/log-fetcher.sh <pod> <namespace> [--previous] [--tail N] [--grep PATTERN]` — structured log retrieval with previous-container support
+
+Run with:
+```bash
+bash plugins/scripts/cluster-reader.sh events production
+bash plugins/scripts/cluster-reader.sh pods production
+bash plugins/scripts/log-fetcher.sh api-gateway production --previous --tail 200 --grep "OOM\|Error\|panic"
+```
