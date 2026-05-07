@@ -6,19 +6,51 @@ on demand, each with their own agents, skills, and guardrails.
 
 ## Installation
 
-Install as a global Claude Code plugin so it's available in every session:
+### Option 1: Plugin marketplace (recommended)
+
+Install via the Claude Code plugin marketplace using the GitHub shorthand:
 
 ```
-/add-plugin https://github.com/kumarabd/superagents
+/plugin marketplace add kumarabd/superagents
 ```
 
-After installation, every new Claude Code session automatically knows about
-the plugin. No setup needed per-project.
+Once installed, the plugin is active in every new session automatically.
 
 **To update after new releases:**
 ```
-/update-plugin k8s-superagent
+/plugin update k8s-superagent
 ```
+
+### Option 2: Manual (settings.json)
+
+Add to `~/.claude/settings.json` for user-wide installation, or `.claude/settings.json` for a single project:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "kumarabd-superagents": {
+      "source": {
+        "source": "github",
+        "repo": "kumarabd/superagents"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "k8s-superagent@kumarabd-superagents": true
+  }
+}
+```
+
+### Option 3: Clone locally
+
+If you want to modify the plugin or use it without a GitHub remote:
+
+```bash
+git clone https://github.com/kumarabd/superagents
+cd superagents
+```
+
+Claude Code will load `CLAUDE.md` automatically when you work from this directory.
 
 ## Requirements
 

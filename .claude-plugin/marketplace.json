@@ -1,0 +1,14 @@
+{
+  "name": "superagents",
+  "owner": {
+    "name": "Abishek Kumar",
+    "email": "abishekkumar92@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "k8s-superagent",
+      "source": "./",
+      "description": "Virtual Kubernetes engineering organization — Developer, SRE, Architect, Security Engineer, and Release Engineer profiles with agents, skills, and guardrails."
+    }
+  ]
+}
