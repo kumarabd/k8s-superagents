@@ -42,3 +42,16 @@ For workload-specific issues, escalate to `incident-responder` if the issue is a
 - Triage active incidents — hand off to incident-responder
 - Make capacity decisions — use capacity-planner
 - Execute privileged operations (drain, delete, force) — those require incident-responder with privileged tier
+
+## Cluster inspection scripts
+
+Prefer these read-only scripts over raw kubectl for routine inspection:
+- `plugins/scripts/audit.sh` — full cluster health snapshot (nodes, pods, events, HPAs, PVCs, cluster-admin bindings). Run before any audit.
+- `plugins/scripts/cluster-reader.sh <cmd>` — targeted reads: `nodes`, `pods [ns]`, `top-pods`, `top-nodes`, `events [ns]`, `hpa`, `pvc`, `endpoints`
+
+Run with:
+```bash
+bash plugins/scripts/audit.sh
+bash plugins/scripts/cluster-reader.sh top-pods
+bash plugins/scripts/cluster-reader.sh events production
+```
