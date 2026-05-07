@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
 # SessionStart hook for k8s-superagent plugin
-# Injects the plugin entry point into every Claude Code session.
+# Injects entry-point skill + active profile into every Claude Code session.
+# Set K8S_PROFILE env var to auto-load a role profile (default: assistant).
+# Valid values: assistant, sre, kubernetes-developer, architect,
+#               security-engineer, release-engineer
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+# Determine active profile
+PROFILE="${K8S_PROFILE:-assistant}"
+profile_file="${PLUGIN_ROOT}/profiles/${PROFILE}.md"
+if [ ! -f "$profile_file" ]; then
+  profile_file="${PLUGIN_ROOT}/profiles/assistant.md"
+  PROFILE="assistant"
+fi
+profile_content=$(cat "$profile_file")
+
 # Read the entry-point skill
 skill_content=$(cat "${PLUGIN_ROOT}/skills/using-k8s-superagent/SKILL.md" 2>&1 || echo "Error reading k8s-superagent skill")
-
 # Replace ${PLUGIN_ROOT} placeholder with actual path
 skill_content="${skill_content//\$\{PLUGIN_ROOT\}/${PLUGIN_ROOT}}"
 
@@ -25,8 +36,9 @@ escape_for_json() {
 }
 
 skill_escaped=$(escape_for_json "$skill_content")
+profile_escaped=$(escape_for_json "$profile_content")
 
-context="<system-reminder>\nk8s-superagent is installed. When the user mentions Kubernetes work or asks to load a profile, use the information below.\n\n${skill_escaped}\n</system-reminder>"
+context="<system-reminder>\nk8s-superagent is installed. When the user mentions Kubernetes work or asks to load a profile, use the information below.\n\n${skill_escaped}\n</system-reminder>\n\n<system-reminder>\nActive profile: ${PROFILE}\n\n${profile_escaped}\n</system-reminder>"
 
 # Emit in the format the current platform expects
 if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
