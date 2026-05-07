@@ -1,38 +1,105 @@
-# Kubernetes Superagents
+# k8s-superagent
 
-A Claude Code project that acts as a virtual Kubernetes engineering organization.
+A Claude Code plugin that acts as a virtual Kubernetes engineering organization —
+giving you a Developer, SRE, Architect, Security Engineer, and Release Engineer
+on demand, each with their own agents, skills, and guardrails.
 
-## Roles
+## Installation
 
-| Profile | What it does |
-|---|---|
-| `kubernetes-developer` | Build operators, controllers, CRDs, manifests, Helm charts |
-| `sre` | Audit clusters, debug failures, manage scaling, write postmortems |
-| `architect` | Design systems, decompose complex tasks, route to the right agents |
-| `security-engineer` | Audit RBAC, enforce policies, review secret handling |
-| `release-engineer` | Plan rollouts, manage promotions, execute rollbacks |
+Install as a global Claude Code plugin so it's available in every session:
 
-## Quick start
+```
+/add-plugin https://github.com/kumarabd/superagents
+```
 
-1. Open this repo in Claude Code
-2. Tell Claude which role to activate: `Load the SRE profile`
-3. Describe your task — the Architect agent will engage first if it's complex
+After installation, every new Claude Code session automatically knows about
+the plugin. No setup needed per-project.
+
+**To update after new releases:**
+```
+/update-plugin k8s-superagent
+```
 
 ## Requirements
 
 - Claude Code
 - `kubectl` configured against your target cluster
-- MCP servers configured per `plugins/mcp/` (kubectl, prometheus, etc.)
+- MCP servers configured per `plugins/mcp/` for observability (Prometheus, Grafana, Loki) and cloud infra — optional but recommended for SRE and incident workflows
 
-## Structure
+## Usage
+
+Tell Claude which role you are working in at the start of a session:
 
 ```
-profiles/        → role entry points
-.claude/agents/  → sub-agents (responsibility owners)
-.claude/skills/  → cognitive workflows
-plugins/mcp/     → MCP server configs
-plugins/scripts/ → read-only cluster inspection scripts
-guardrails/      → permission tiers
-playbooks/       → step-by-step runbooks
-examples/        → end-to-end worked examples
+Load the SRE profile.
 ```
+
+```
+I'm a Kubernetes developer. Load the developer profile.
+```
+
+```
+This is a complex task. Load the Architect profile and help me design a plan.
+```
+
+The Architect agent engages automatically for any task that is ambiguous,
+cross-cutting, or spans multiple domains.
+
+## Profiles
+
+| Profile | What it does | Primary agents |
+|---|---|---|
+| `kubernetes-developer` | Build operators, controllers, CRDs, manifests, Helm charts | architect, operator-developer, manifest-engineer, release-manager |
+| `sre` | Audit clusters, debug failures, manage scaling, write postmortems | cluster-sre, incident-responder, capacity-planner |
+| `architect` | Design systems, decompose complex tasks, produce phased plans | architect |
+| `security-engineer` | Audit RBAC, enforce admission policies, review secret handling | security-auditor |
+| `release-engineer` | Plan rollouts, manage promotions, execute rollbacks | release-manager, cluster-sre |
+
+## Agents
+
+| Agent | Responsibility |
+|---|---|
+| `architect` | Decompose complex tasks, produce phased plans, route to other agents |
+| `operator-developer` | Build controllers, operators, CRDs, admission webhooks |
+| `manifest-engineer` | Author and validate Kubernetes YAML, Helm charts, Kustomize |
+| `cluster-sre` | Steady-state cluster ops — audit, health, utilization |
+| `incident-responder` | Active incident triage and remediation |
+| `capacity-planner` | Resource modeling, HPA/VPA config, node pool sizing |
+| `security-auditor` | RBAC audit, admission policy review, secret hygiene |
+| `release-manager` | Rollout strategy, progressive delivery, rollback |
+
+## Guardrail tiers
+
+Every agent operates within an explicit permission tier. No agent bypasses its tier.
+
+| Tier | What it permits |
+|---|---|
+| `readonly` | get, describe, list, logs, events — no confirmation needed |
+| `controlled-write` | apply, scale, patch — requires showing diff and user confirmation |
+| `privileged` | delete, drain, cordon — requires typed `CONFIRM: <reason>` |
+
+## Repository structure
+
+```
+.claude-plugin/      → plugin manifest (makes this installable via /add-plugin)
+hooks/               → session-start hook (injects context into every session)
+skills/              → plugin entry-point skill (using-k8s-superagent)
+profiles/            → role definitions (agents + skills + guardrail tier per role)
+.claude/agents/      → sub-agents Claude Code can spawn
+.claude/skills/      → cognitive workflows (how to think about each problem class)
+plugins/mcp/         → MCP server connection configs
+plugins/scripts/     → read-only Bash scripts for cluster inspection
+guardrails/          → permission tier definitions
+playbooks/           → step-by-step runbooks for known scenarios
+examples/            → end-to-end worked examples
+docs/                → design specs and architecture docs
+```
+
+## Examples
+
+See `examples/` for end-to-end walkthroughs:
+
+- [`build-operator.md`](examples/build-operator.md) — build a controller from scratch
+- [`debug-crashloop.md`](examples/debug-crashloop.md) — triage a CrashLoopBackOff incident
+- [`audit-cluster.md`](examples/audit-cluster.md) — run a weekly cluster health audit
+- [`design-platform-feature.md`](examples/design-platform-feature.md) — architect a multi-tenant platform feature
