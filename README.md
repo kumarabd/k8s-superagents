@@ -58,34 +58,52 @@ Claude Code will load `CLAUDE.md` automatically when you work from this director
 - `kubectl` configured against your target cluster
 - MCP servers configured per `plugins/mcp/` for observability (Prometheus, Grafana, Loki) and cloud infra — optional but recommended for SRE and incident workflows
 
+## Getting started
+
+The fastest way to get started is the `k8s-assistant` skill — a front-facing entrypoint that automatically routes any Kubernetes question or task to the right specialist skill, no profile knowledge required.
+
+**Invoke per question:**
+```
+/k8s-assistant how many nodes is my cluster running?
+```
+
+**Or load the assistant profile for the whole session:**
+```
+Load the assistant profile.
+```
+
+Once the assistant profile is active, just describe your task naturally. It classifies the request, announces its routing decision, and invokes the appropriate domain skill:
+
+```
+A pod is crash looping in the payments namespace.
+```
+```
+I need to write a Deployment manifest for a stateless API.
+```
+```
+Audit our RBAC posture before the security review.
+```
+
+For complex or multi-domain tasks, it routes to `task-decomposition` which breaks the work into phases before any implementation begins.
+
 ## Usage
 
-Once installed, the plugin is active in every Claude Code session automatically —
-no loading or setup required per session.
-
-Just describe your task. Claude already knows all the profiles, agents, skills,
-and guardrails. It will ask for your role if the context isn't clear, or you can
-mention it naturally:
+If you already know which role you need, you can load a domain profile directly for full access to that profile's agent roster and tools:
 
 ```
-I need to debug a CrashLoopBackOff in production.
+Load the SRE profile.
+```
+```
+Load the Kubernetes Developer profile.
 ```
 
-```
-I want to build a new Kubernetes operator for provisioning databases.
-```
-
-```
-We need to design a multi-tenancy system for our platform cluster.
-```
-
-For complex or ambiguous tasks, the Architect agent engages first to decompose
-the work before any implementation begins.
+This bypasses the assistant routing layer and gives you the full specialist context directly.
 
 ## Profiles
 
 | Profile | What it does | Primary agents |
 |---|---|---|
+| `assistant` | Front-facing entrypoint — routes any question to the right domain skill automatically | routes via `k8s-assistant` skill |
 | `kubernetes-developer` | Build operators, controllers, CRDs, manifests, Helm charts | architect, operator-developer, manifest-engineer, release-manager |
 | `sre` | Audit clusters, debug failures, manage scaling, write postmortems | cluster-sre, incident-responder, capacity-planner |
 | `architect` | Design systems, decompose complex tasks, produce phased plans | architect |
