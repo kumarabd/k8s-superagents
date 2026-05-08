@@ -1,0 +1,15 @@
+{
+  "id": "k8s-superagent",
+  "name": "Kubernetes Superagent",
+  "description": "Virtual Kubernetes engineering org — Developer, SRE, Architect, Security, and Release Engineer profiles with skills and guardrails.",
+  "contracts": {
+    "tools": ["k8s_superagent"]
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false
+  }
+}
