@@ -138,10 +138,9 @@ Every agent operates within an explicit permission tier. No agent bypasses its t
 ```
 .claude-plugin/      → plugin manifest (makes this installable via /add-plugin)
 hooks/               → session-start hook (injects context into every session)
-skills/              → plugin entry-point skill (using-k8s-superagent)
+skills/              → Superpowers entry point + cognitive workflow skills (framework-agnostic)
 profiles/            → role definitions (agents + skills + guardrail tier per role)
 .claude/agents/      → sub-agents Claude Code can spawn
-skills/              → cognitive workflows (how to think about each problem class)
 plugins/mcp/         → MCP server connection configs
 plugins/scripts/     → read-only Bash scripts for cluster inspection
 guardrails/          → permission tier definitions
