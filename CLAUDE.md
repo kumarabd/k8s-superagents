@@ -24,7 +24,7 @@ Read profiles/sre.md and activate it.
 |---|---|
 | `profiles/` | Role entry points — define agents, skills, tools, and guardrail tier |
 | `.claude/agents/` | Sub-agents Claude can spawn, each owning a specific responsibility |
-| `.claude/skills/` | Cognitive workflows — how to think about a class of problem |
+| `skills/` | Cognitive workflows — how to think about a class of problem (framework-agnostic) |
 | `plugins/mcp/` | MCP server connection configs (structured capability layer) |
 | `plugins/scripts/` | Read-only Bash scripts for fast cluster inspection |
 | `guardrails/` | Permission tiers — what each agent tier can do without confirmation |

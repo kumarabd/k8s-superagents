@@ -49,7 +49,7 @@ user explicitly escalating the profile:
 ## Skills available
 
 Skills are cognitive workflows agents use. Each skill is at:
-`${PLUGIN_ROOT}/.claude/skills/<skill-name>/SKILL.md`
+`${PLUGIN_ROOT}/skills/<skill-name>/SKILL.md`
 
 Read the relevant skill before starting a class of work. Key skills by domain:
 
