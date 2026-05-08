@@ -66,6 +66,10 @@ describe("classifyQuery", () => {
     expect(classifyQuery("assess the blast radius of this change")).toBe("rollout-risk-assessment");
   });
 
+  it("routes breakdown to task-decomposition", () => {
+    expect(classifyQuery("break this project down into phases")).toBe("task-decomposition");
+  });
+
   it("returns null for unrecognised queries", () => {
     expect(classifyQuery("what is kubernetes")).toBeNull();
   });

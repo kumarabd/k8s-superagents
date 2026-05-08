@@ -28,15 +28,15 @@ export type ProfileName =
 // substrings (e.g. "controller-runtime" before "controller", "rollout risk"
 // before "rollout", "crd schema" before "crd").
 const ROUTING_TABLE: Array<{ keywords: string[]; skill: SkillName }> = [
-  { keywords: ["crashloop", "pending", "evicted", "oomkill", "imagepullbackoff"], skill: "pod-failure-triage" },
+  { keywords: ["crashloop", "pod pending", "evicted", "oomkill", "imagepullbackoff"], skill: "pod-failure-triage" },
   { keywords: ["node pressure", "notready", "disk pressure", "pid pressure"], skill: "node-pressure-debug" },
-  { keywords: ["controller-runtime", "reconciler", "requeue"], skill: "controller-runtime-debug" },
+  { keywords: ["controller-runtime", "reconciler", "requeue", "reconcile"], skill: "controller-runtime-debug" },
   { keywords: ["crd schema", "field naming"], skill: "crd-design-review" },
   { keywords: ["rollout risk", "blast radius", "change risk"], skill: "rollout-risk-assessment" },
-  { keywords: ["rbac", "role", "permission", "serviceaccount", "clusterrole"], skill: "rbac-design" },
+  { keywords: ["rbac", "rolebinding", "permission", "serviceaccount", "service account", "clusterrole"], skill: "rbac-design" },
   { keywords: ["canary", "rollout", "blue-green", "progressive delivery"], skill: "release-strategy" },
   { keywords: ["hpa", "vpa", "sizing", "capacity"], skill: "capacity-planning" },
-  { keywords: ["operator", "crd", "webhook", "reconcile"], skill: "operator-development" },
+  { keywords: ["operator", "crd", "webhook"], skill: "operator-development" },
   { keywords: ["helm", "kustomize", "chart", "overlay", "values"], skill: "helm-kustomize" },
   { keywords: ["manifest", "deployment", "statefulset", "service", "configmap"], skill: "manifest-authoring" },
   { keywords: ["audit", "health", "utilization", "drift"], skill: "cluster-audit" },
